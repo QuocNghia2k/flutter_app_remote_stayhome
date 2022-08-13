@@ -1,0 +1,15 @@
+{
+    "language":"English",
+    "@language":{
+        "description":"Hello wellcome to english"
+    },
+    "hellowork":"Hello vietnam and {userName}",
+    "@hellowork":{
+        "description":"hello add paramater",
+        "placeholders":{
+            "userName":{
+                "type":"String"
+            }
+        }
+    }
+}

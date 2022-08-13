@@ -1,0 +1,8 @@
+{
+    "language":"việt nam",
+    "@language":{
+        "hello":"Xin chào đến với việt nam"
+    },
+    "hellowork":"xin chao vietnam va {userName}"
+
+}

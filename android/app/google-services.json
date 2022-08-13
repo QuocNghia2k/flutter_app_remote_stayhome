@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "180774913918",
+    "project_id": "flutter-app-homestay",
+    "storage_bucket": "flutter-app-homestay.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180774913918:android:225bcb3c06925d4438152f",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app_remote_stayhome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180774913918-4bacags4r6qcoku0o1p0fqme9vitb8va.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByI-WvRj6N-F6oyr2feKn-WkKFB6_JZmU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180774913918-4bacags4r6qcoku0o1p0fqme9vitb8va.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
