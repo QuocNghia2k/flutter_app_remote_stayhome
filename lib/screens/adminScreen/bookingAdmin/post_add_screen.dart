@@ -3,7 +3,12 @@ import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_remote_stayhome/data/dataSource/entiti/house.dart';
+import 'package:flutter_app_remote_stayhome/providers/home_provider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+import '../../../theme/login_theme.dart';
 // import 'package:flutter/foundation.dart' show kIsWeb;
 // import 'package:image_picker_web/image_picker_web.dart';
 
@@ -15,6 +20,8 @@ class PostAddScren extends StatefulWidget {
 }
 
 class _PostAddScrenState extends State<PostAddScren> {
+  late String _nameHouse;
+  late String _adress;
   UploadTask? uploadTask;
   File? _pickerImage;
   Uint8List webImage = Uint8List(8);
@@ -87,41 +94,110 @@ class _PostAddScrenState extends State<PostAddScren> {
 
   @override
   Widget build(BuildContext context) {
+    HomeProvider homeProvider = Provider.of<HomeProvider>(context);
+
+    _addHouse(String name, String address) async {
+      String url = await _uploadFile();
+      House house = House(name: name, address: address, idImage: url);
+      await homeProvider.addHouse(house);
+      
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Add post"),
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          children: [
-            MaterialButton(
-                color: Colors.blue,
-                child: const Text("Pick Image from Gallery",
-                    style: TextStyle(
-                        color: Colors.white70, fontWeight: FontWeight.bold)),
-                onPressed: () {
-                  _pickImageTwo();
-                }),
-            SizedBox(
-              height: 20,
+      body: SingleChildScrollView(
+        child: Column(children: [
+          Container(
+            child: const Text(
+              'Name House',
+              style: TextStyle(
+                  fontFamily: 'Poppins-Medium',
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500),
             ),
-            Container(
-                child:
-                    _pickerImage == null ? Text("hihihi") : getImagePicker()),
-            SizedBox(
-              height: 20,
+          ),
+          Container(
+              child: SizedBox(
+            width: 310,
+            child: TextFormField(
+              onChanged: (value) {
+                _nameHouse = value;
+              },
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                hintText: 'Enter name house',
+                hintStyle: TextStyle(color: LoginTheme.hintText),
+              ),
             ),
-            MaterialButton(
-                color: Colors.blue,
-                child: const Text("upload image",
-                    style: TextStyle(
-                        color: Colors.white70, fontWeight: FontWeight.bold)),
-                onPressed: () {
-                  _uploadFile();
-                }),
-          ],
-        ),
+          )),
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            child: const Text(
+              'Adress',
+              style: TextStyle(
+                  fontFamily: 'Poppins-Medium',
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+          Container(
+              child: SizedBox(
+            width: 310,
+            child: TextFormField(
+              onChanged: (value) {
+                _adress = value;
+              },
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                hintText: 'Enter name house',
+                hintStyle: TextStyle(color: LoginTheme.hintText),
+              ),
+            ),
+          )),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: Column(
+              children: [
+                MaterialButton(
+                    color: Colors.blue,
+                    child: const Text("Pick Image from Gallery",
+                        style: TextStyle(
+                            color: Colors.white70,
+                            fontWeight: FontWeight.bold)),
+                    onPressed: () {
+                      _pickImageTwo();
+                    }),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                    child: _pickerImage == null
+                        ? Text("hihihi")
+                        : getImagePicker()),
+                SizedBox(
+                  height: 20,
+                ),
+                MaterialButton(
+                    color: Colors.blue,
+                    child: const Text("upload image",
+                        style: TextStyle(
+                            color: Colors.white70,
+                            fontWeight: FontWeight.bold)),
+                    onPressed: () {
+                      // House house = House(name: _nameHouse, address: _adress);
+                      _addHouse(_nameHouse, _adress);
+                    }),
+              ],
+            ),
+          ),
+        ]),
       ),
     );
   }

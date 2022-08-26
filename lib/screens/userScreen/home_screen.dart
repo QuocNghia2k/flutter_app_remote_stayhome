@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_remote_stayhome/providers/home_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../data/dataSource/entiti/user.dart';
 import '../../widgets/userPage/home/best_offer.dart';
@@ -22,26 +24,31 @@ class _HomePageState extends State<HomePage> {
       // backgroundColor: Colors.black,
       // appBar: CustomAppBar(),
       body: SingleChildScrollView(
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/primaryBg.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              WelcomeText(),
-              SearchInput(),
-              Categories(),
-              RecommendedHouse(
-                user: widget.user,
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => HomeProvider(),)
+          ],
+          child: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/primaryBg.png"),
+                fit: BoxFit.cover,
               ),
-              BestOffer(
-                user: widget.user,
-              )
-            ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                WelcomeText(),
+                SearchInput(),
+                Categories(),
+                RecommendedHouse(
+                  user: widget.user,
+                ),
+                BestOffer(
+                  user: widget.user,
+                )
+              ],
+            ),
           ),
         ),
       ),

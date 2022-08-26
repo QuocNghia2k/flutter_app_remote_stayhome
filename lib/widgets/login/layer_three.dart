@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_remote_stayhome/data/dataSource/entiti/user.dart';
-import 'package:flutter_app_remote_stayhome/data/repositories/user_repository_impl.dart';
 import 'package:flutter_app_remote_stayhome/providers/user_provider.dart';
 import 'package:flutter_app_remote_stayhome/screens/adminScreen/admin_screen.dart';
 import 'package:flutter_app_remote_stayhome/screens/register_screen.dart';
@@ -15,26 +13,36 @@ class LayerThree extends StatefulWidget {
   @override
   State<LayerThree> createState() => _LayerThreeState();
 }
-
 class _LayerThreeState extends State<LayerThree> {
-  @override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-    // print(context.read<UserProvider>().user);
-  }
-
   late String _username;
   late String _passwork;
-
   late String _errWrong = "";
-
-
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     final recipeData = Provider.of<UserProvider>(context);
+
+    _login(String username, String passwork) async {
+      await recipeData.getUser(username, passwork);
+      // print(context.watch<UserProvider>().user.toString());
+      if (recipeData.user.role == "ROLE_USER" ||
+          recipeData.user.role == "ROLE_ADMIN") {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => recipeData.user.role == "ROLE_USER"
+                  ? UserScreen(
+                      user: recipeData.user,
+                    )
+                  : AdminScrren(
+                      user: recipeData.user,
+                    )),
+        );
+      } else {
+        setState(() {});
+      }
+    }
 
     return Container(
       height: 584,
@@ -161,25 +169,7 @@ class _LayerThreeState extends State<LayerThree> {
                   child: GestureDetector(
                     onTap: () {
                       print("$_passwork+ $_username");
-                      recipeData.getUser(_username, _passwork);
-                      // print(context.watch<UserProvider>().user.toString());
-                      if (recipeData.user.role == "ROLE_USER" ||
-                          recipeData.user.role == "ROLE_ADMIN") {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  recipeData.user.role == "ROLE_USER"
-                                      ? UserScreen(
-                                          user: recipeData.user,
-                                        )
-                                      : AdminScrren(
-                                          user: recipeData.user,
-                                        )),
-                        );
-                      } else {
-                        setState(() {});
-                      }
+                      _login(_username, _passwork);
                     },
                     child: const Text(
                       'Sign In',

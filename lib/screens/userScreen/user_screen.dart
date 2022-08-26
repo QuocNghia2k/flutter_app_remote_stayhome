@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_remote_stayhome/providers/home_provider.dart';
+import 'package:flutter_app_remote_stayhome/providers/post_provider.dart';
+import 'package:flutter_app_remote_stayhome/providers/user_provider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 import '../../data/dataSource/entiti/user.dart';
 import '../../widgets/userPage/home/custom_app_bar.dart';
 import 'like_screen.dart';
 import 'search_screen.dart';
 import 'home_screen.dart';
-import 'setting_screen.dart';
+import 'post_page.dart';
 
 class UserScreen extends StatefulWidget {
   final User user;
@@ -18,8 +22,10 @@ class UserScreen extends StatefulWidget {
         user: user,
       ),
       SearchScreen(user: user),
-      LikesScreen(user: user,),
-      SettingsPage(),
+      LikesScreen(
+        user: user,
+      ),
+      PostPageInUser(),
     ]);
   }
   @override
@@ -37,8 +43,21 @@ class _UserScreenState extends State<UserScreen> {
       appBar: CustomAppBar(
         user: widget.user,
       ),
-      body: Center(
-        child: UserScreen.widgetOptions.elementAt(_selectedIndex),
+      body: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => HomeProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => UserProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => PostProvider(),
+          )
+        ],
+        child: Center(
+          child: UserScreen.widgetOptions.elementAt(_selectedIndex),
+        ),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -74,11 +93,11 @@ class _UserScreenState extends State<UserScreen> {
                 ),
                 GButton(
                   icon: LineIcons.heart,
-                  text: 'Likes',
+                  text: 'Booking',
                 ),
                 GButton(
-                  icon: LineIcons.cog,
-                  text: 'Profile',
+                  icon: LineIcons.bell,
+                  text: 'Notified',
                 ),
               ],
               selectedIndex: _selectedIndex,

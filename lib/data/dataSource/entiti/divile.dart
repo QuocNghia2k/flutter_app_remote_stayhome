@@ -1,13 +1,13 @@
-class Divile {
+class DivileHouse {
   String? id;
   String? idHouse;
   String? nameDivile;
   bool? isOn;
 
-  Divile({this.id, this.idHouse, this.nameDivile, this.isOn});
+  DivileHouse({this.id, this.idHouse, this.nameDivile, this.isOn});
 
-  factory Divile.fromJson(String id, Map<String, dynamic> map) {
-    return Divile(
+  factory DivileHouse.fromJson(String id, Map<String, dynamic> map) {
+    return DivileHouse(
         id: id,
         idHouse: map["idHouse"],
         nameDivile: map["nameDevile"],

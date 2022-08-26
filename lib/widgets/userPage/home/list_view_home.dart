@@ -53,7 +53,7 @@ class _ListViewHomeState extends State<ListViewHome> {
                       height: 80,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: AssetImage(el[index].idImage!),
+                              image: NetworkImage(el[index].idImage!),
                               fit: BoxFit.cover),
                           borderRadius: BorderRadius.circular(8)),
                     ),

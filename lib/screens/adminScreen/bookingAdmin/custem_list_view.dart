@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 
 class CustomListItem extends StatelessWidget {
-  const CustomListItem({
-    Key? key,
-    required this.thumbnail,
-    required this.title,
-    required this.user,
-    required this.viewCount,
-  }) : super(key: key);
+  const CustomListItem(
+      {Key? key,
+      required this.thumbnail,
+      required this.title,
+      required this.sub})
+      : super(key: key);
 
   final Widget thumbnail;
   final String title;
-  final String user;
-  final int viewCount;
+  final String sub;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(color: Colors.red),
+      decoration:
+          const BoxDecoration(color: Color.fromARGB(255, 216, 215, 215)),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0),
         child: Row(
@@ -25,14 +24,16 @@ class CustomListItem extends StatelessWidget {
           children: [
             Expanded(
               flex: 2,
-              child: Container(padding: EdgeInsets.symmetric(horizontal: 5),child: thumbnail,),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: thumbnail,
+              ),
             ),
             Expanded(
               flex: 3,
               child: _VideoDescription(
                 title: title,
-                user: user,
-                viewCount: viewCount,
+                sub: sub,
               ),
             ),
             const Icon(
@@ -47,16 +48,11 @@ class CustomListItem extends StatelessWidget {
 }
 
 class _VideoDescription extends StatelessWidget {
-  const _VideoDescription({
-    Key? key,
-    required this.title,
-    required this.user,
-    required this.viewCount,
-  }) : super(key: key);
+  const _VideoDescription({Key? key, required this.title, required this.sub})
+      : super(key: key);
 
   final String title;
-  final String user;
-  final int viewCount;
+  final String sub;
 
   @override
   Widget build(BuildContext context) {
@@ -72,14 +68,9 @@ class _VideoDescription extends StatelessWidget {
               fontSize: 14.0,
             ),
           ),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-          Text(
-            user,
-            style: const TextStyle(fontSize: 10.0),
-          ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
           Text(
-            '$viewCount views',
+            sub,
             style: const TextStyle(fontSize: 10.0),
           ),
         ],

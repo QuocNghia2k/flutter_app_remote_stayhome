@@ -3,93 +3,33 @@ import 'package:flutter_app_remote_stayhome/data/dataSource/entiti/divile.dart';
 import 'package:flutter_app_remote_stayhome/data/dataSource/entiti/image.dart';
 
 class House {
-  int? id;
+  String? id;
   String? name;
   String? address;
   String? idImage;
-  List<Booking>? listBooking;
-  List<Divile>? listDivile;
-  House({this.id, this.name, this.address, this.idImage, this.listBooking});
+  List<dynamic>? listBooking;
+  List<dynamic>? listDivile;
+  House({this.id, this.name, this.address, this.idImage, this.listBooking, this.listDivile});
 
-  static List<House> generateRecommended() {
-    List<Booking> list1 = [
-      Booking(
-          idHouse: "1",
-          idUser: "1",
-          startDate: DateTime.now(),
-          endDate: DateTime.now()),
-      Booking(
-          idHouse: "1",
-          idUser: "2",
-          startDate: DateTime.now(),
-          endDate: DateTime.now())
-    ];
-    List<Booking> list2 = [
-      Booking(
-          idHouse: "2",
-          idUser: "1",
-          startDate: DateTime.now(),
-          endDate: DateTime.now()),
-      Booking(
-          idHouse: "2",
-          idUser: "2",
-          startDate: DateTime.now(),
-          endDate: DateTime.now())
-    ];
-    return [
-      House(
-          id: 1,
-          name: 'The Moon House',
-          address: 'P455, Chhatak, Sylhet',
-          idImage: 'assets/images/house01.jpeg',
-          listBooking: list1),
-      House(
-          id: 2,
-          name: 'The Moon House',
-          address: 'P455, Chhatak, Sylhet',
-          idImage: 'assets/images/house02.jpeg',
-          listBooking: list2),
-    ];
+
+  factory House.fromJson(String id, Map<String, dynamic> json){
+    return House(
+      id:  id,
+      name: json["name"],
+      address: json["address"],
+      idImage: json["idImage"],
+      listBooking: json["listBooking"],
+      listDivile: json["listDivile"]
+    );
   }
 
-  static List<House> generateBestOffer() {
-    List<Booking> list1 = [
-      Booking(
-          idHouse: "1",
-          idUser: "1",
-          startDate: DateTime.now(),
-          endDate: DateTime.now()),
-      Booking(
-          idHouse: "1",
-          idUser: "2",
-          startDate: DateTime.now(),
-          endDate: DateTime.now())
-    ];
-    List<Booking> list2 = [
-      Booking(
-          idHouse: "2",
-          idUser: "1",
-          startDate: DateTime.now(),
-          endDate: DateTime.now()),
-      Booking(
-          idHouse: '2',
-          idUser: "2",
-          startDate: DateTime.now(),
-          endDate: DateTime.now())
-    ];
-    return [
-      House(
-          id: 1,
-          name: 'The Moon House',
-          address: 'P455, Chhatak, Sylhet',
-          idImage: 'assets/images/offer01.jpeg',
-          listBooking: list1),
-      House(
-          id: 2,
-          name: 'The Moon House',
-          address: 'P455, Chhatak, Sylhet',
-          idImage: 'assets/images/offer02.jpeg',
-          listBooking: list2),
-    ];
+  Map<String, dynamic> toMap(){
+    return {
+      "name": name,
+      "address":address,
+      "idImage":idImage,
+      "listBooking":listBooking,
+      "listDivile": listDivile
+    };
   }
 }

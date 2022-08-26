@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_remote_stayhome/data/dataSource/entiti/user.dart';
+import 'package:flutter_app_remote_stayhome/providers/post_provider.dart';
+import 'package:flutter_app_remote_stayhome/providers/user_provider.dart';
 import 'package:flutter_app_remote_stayhome/screens/adminScreen/bookingAdmin/booking_sreen.dart';
+import 'package:flutter_app_remote_stayhome/screens/adminScreen/bookingAdmin/chectOut.dart';
 import 'package:flutter_app_remote_stayhome/screens/adminScreen/homeAdmin/home_admin_screen.dart';
+import 'package:flutter_app_remote_stayhome/screens/adminScreen/user_edit_screem.dart/user_edit_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/home_provider.dart';
 import '../../widgets/userPage/home/custom_app_bar.dart';
 
 class AdminScrren extends StatefulWidget {
@@ -23,17 +29,32 @@ class _AdminScrrenState extends State<AdminScrren> {
       user: widget.user,
     ),
     BookingScreen(),
-    const Text("Home3"),
-    const Text("Home4"),
+    UserEditScreen(),
+    CheckOut(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      appBar: CustomAppBar(
+        user: widget.user,
+      ),
+      body: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => HomeProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => UserProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => PostProvider(),
+          )
+        ],
+        child: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -65,11 +86,11 @@ class _AdminScrrenState extends State<AdminScrren> {
                 ),
                 GButton(
                   icon: LineIcons.search,
-                  text: 'Search',
+                  text: 'House',
                 ),
                 GButton(
-                  icon: LineIcons.heart,
-                  text: 'Likes',
+                  icon: LineIcons.user,
+                  text: 'User',
                 ),
                 GButton(
                   icon: LineIcons.cog,

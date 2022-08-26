@@ -1,98 +1,49 @@
-import '../entiti/booking.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../entiti/house.dart';
-import '../entiti/image.dart';
 
 class HouseService {
-  late List<House> listhouse;
-
+  List<House> listhouse = [];
+  late FirebaseFirestore db;
   HouseService() {
+    db = FirebaseFirestore.instance;
     _init();
   }
 
   _init() async {
-    listhouse = await getAllHouse();
+    await getAllHouse();
   }
 
   Future<List<House>> getAllHouse() async {
-    List<Booking> list1 = [
-      Booking(
-          idHouse: "1",
-          idUser: "1",
-          startDate: DateTime.now(),
-          endDate: DateTime.now()),
-      Booking(
-          idHouse: "1",
-          idUser: "2",
-          startDate: DateTime.now(),
-          endDate: DateTime.now())
-    ];
-    List<Booking> list2 = [
-      Booking(
-          idHouse: "2",
-          idUser: "1",
-          startDate: DateTime.now(),
-          endDate: DateTime.now()),
-      Booking(
-          idHouse: "2",
-          idUser: "2",
-          startDate: DateTime.now(),
-          endDate: DateTime.now())
-    ];
-    List<House> resurt = [
-      House(
-          id: 1,
-          name: 'The Moon House',
-          address: 'P455, Chhatak, Sylhet',
-          idImage: 'assets/images/house01.jpeg',
-          listBooking: list1),
-      House(
-          id: 2,
-          name: 'The Moon House',
-          address: 'P455, Chhatak, Sylhet',
-          idImage: 'assets/images/house02.jpeg',
-          listBooking: list2),
-    ];
-    return resurt;
+    List<House> list = [];
+    await db.collection("houses").get().then((event) {
+      for (var doc in event.docs) {
+        print("${doc.id} => ${doc.data()}");
+        list.add(House.fromJson(doc.id, doc.data()));
+      }
+    });
+    listhouse.clear();
+    listhouse.addAll(list);
+    return listhouse;
+  }
+  Future addHouse(House house) async {
+    String id = "";
+    db
+        .collection("houses")
+        .add(house.toMap())
+        .then((DocumentReference doc) => id = doc.id);
+
+    return id;
   }
 
-  Future<List<House>> getBestOffer() async {
-    List<Booking> list1 = [
-      Booking(
-          idHouse: "1",
-          idUser: "1",
-          startDate: DateTime.now(),
-          endDate: DateTime.now()),
-      Booking(
-          idHouse: "1",
-          idUser: "2",
-          startDate: DateTime.now(),
-          endDate: DateTime.now())
-    ];
-    List<Booking> list2 = [
-      Booking(
-          idHouse: "2",
-          idUser: "1",
-          startDate: DateTime.now(),
-          endDate: DateTime.now()),
-      Booking(
-          idHouse: "2",
-          idUser: "2",
-          startDate: DateTime.now(),
-          endDate: DateTime.now())
-    ];
-    return [
-      House(
-          id: 1,
-          name: 'The Moon House',
-          address: 'P455, Chhatak, Sylhet',
-          idImage: 'assets/images/offer01.jpeg',
-          listBooking: list1),
-      House(
-          id: 2,
-          name: 'The Moon House',
-          address: 'P455, Chhatak, Sylhet',
-          idImage: 'assets/images/offer02.jpeg',
-          listBooking: list2),
-    ];
+  Future updateHouse(House house) async {
+    try {
+      await db
+          .collection("houses")
+          .doc(house.id)
+          .update(house.toMap());
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

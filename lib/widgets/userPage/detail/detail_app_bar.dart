@@ -13,7 +13,7 @@ class DetailAppBar extends StatelessWidget {
       height: 400,
       child: Stack(
         children: [
-          Image.asset(
+          Image.network(
             house.idImage!,
             fit: BoxFit.cover,
             height: double.infinity,

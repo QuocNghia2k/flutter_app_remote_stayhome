@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_remote_stayhome/providers/home_provider.dart';
 import 'package:flutter_app_remote_stayhome/screens/userScreen/booking_user_screen.dart';
-
+import 'package:provider/provider.dart';
 
 import '../../data/dataSource/entiti/house.dart';
 import '../../data/dataSource/entiti/user.dart';
@@ -13,7 +14,8 @@ import '../adminScreen/bookingAdmin/booking_sreen.dart';
 class DetailPage extends StatelessWidget {
   final User user;
   final House house;
-  const DetailPage({Key? key, required this.house, required this.user}) : super(key: key);
+  const DetailPage({Key? key, required this.house, required this.user})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +37,20 @@ class DetailPage extends StatelessWidget {
             child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => BooKingUserScreen(user:  user,),));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MultiProvider(
+                          providers: [
+                            ChangeNotifierProvider(
+                              create: (context) => HomeProvider(),
+                            )
+                          ],
+                          child: BooKingUserScreen(
+                            user: user,
+                            house: house,
+                          ),
+                        ),
+                      ));
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

@@ -4,14 +4,28 @@ import '../dataSource/entiti/house.dart';
 
 abstract class HouseRepository {
   Future<List<House>> getAllHouse();
-// Future<House> getHouse(int id);
+  Future addHouse(House house);
+  Future updateHouse(House house);
 }
 
 class HouseRepositoryImpl implements HouseRepository {
-  HouseService houseService = HouseService();
+  late HouseService houseService;
 
+  HouseRepositoryImpl() {
+    houseService = HouseService();
+  }
   @override
   Future<List<House>> getAllHouse() async {
-    return await houseService.getAllHouse();
+    return houseService.getAllHouse();
+  }
+
+  @override
+  Future addHouse(House house) async {
+    return houseService.addHouse(house);
+  }
+
+  @override
+  Future updateHouse(House house) async {
+    return houseService.updateHouse(house);
   }
 }

@@ -6,14 +6,18 @@ abstract class UserRepository {
   Future<User> getUser(String id);
   Future<String> checkUser(String userNaem, String passwork);
   Future addUser(User user);
+  Future updateUser(User user);
 }
 
 class UserRepositoryImpl implements UserRepository {
-  late UserService userService = UserService();
+  late UserService userService;
 
+  UserRepositoryImpl() {
+    userService = UserService();
+  }
   @override
   Future<List<User>> getAllUser() async {
-    return await userService.getAllUser();
+    return userService.getAllUser();
   }
 
   @override
@@ -29,5 +33,10 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future addUser(User user) async {
     await userService.addUser(user);
+  }
+
+  @override
+  Future updateUser(User user) async {
+    userService.updateUser(user);
   }
 }

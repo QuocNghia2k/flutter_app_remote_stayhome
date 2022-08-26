@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class Booking extends Equatable {
@@ -19,16 +20,16 @@ class Booking extends Equatable {
         idBooking: id,
         idHouse: json["idHouse"],
         idUser: json["idUser"],
-        startDate: json["startDate"],
-        endDate: json["endDate"]);
+        startDate: json["startDate"].toDate(),
+        endDate: json["endDate"].toDate());
   }
 
   Map<String, dynamic> toMap() => {
         // "id": id,
         "idHouse": idHouse,
         "idUser": idUser,
-        "startDate": startDate,
-        "endDate": endDate
+        "startDate": Timestamp.fromDate(startDate!),
+        "endDate": Timestamp.fromDate(endDate!)
       };
 
   @override

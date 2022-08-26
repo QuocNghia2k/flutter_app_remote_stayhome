@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_remote_stayhome/providers/home_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../data/dataSource/entiti/house.dart';
 import '../../../data/dataSource/entiti/user.dart';
@@ -15,109 +17,105 @@ class RecommendedHouse extends StatefulWidget {
 }
 
 class _RecommendedHouseState extends State<RecommendedHouse> {
-  // final HouseRepository houseRepository = HouseRepositoryImpl();
-  final listOffer = House.generateRecommended();
-  // late List<House>listOffer;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // HouseRepository houseRepository = HouseRepositoryImpl();
-    //  _getAllHouse();
-    // listOffer = houseRepository.getAllHouse();
-    // listOffer = House.generateRecommended();
-  }
-
-  // _getAllHouse() async {
-  //   listOffer = await houseRepository.getAllHouse();
-  // }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(15),
-      height: 340,
-      child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) => GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return DetailPage(
-                      house: listOffer[index],
-                      user: widget.user,
-                    );
-                  }));
-                },
-                child: Container(
-                  width: 230,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Stack(
-                    children: [
-                      Container(
+    final listOffer = Provider.of<HomeProvider>(context).listHouse;
+
+    return listOffer.isEmpty
+        ? Container(
+            child: CircularProgressIndicator(),
+          )
+        : Container(
+            padding: EdgeInsets.all(15),
+            height: 340,
+            child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return DetailPage(
+                            house: listOffer[index],
+                            user: widget.user,
+                          );
+                        }));
+                      },
+                      child: Container(
+                        width: 230,
+                        padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(
-                                  listOffer[index].idImage!,
-                                ),
-                                fit: BoxFit.cover)),
-                      ),
-                      Positioned(
-                        right: 15,
-                        top: 15,
-                        child: CircleIconButton(
-                            iconUrl: 'assets/icons/mark.svg',
-                            color: Theme.of(context).accentColor),
-                      ),
-                      Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: Container(
-                            color: Colors.white54,
-                            padding: EdgeInsets.all(10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(listOffer[index].name!,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline1!
-                                            .copyWith(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold)),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      listOffer[index].address!,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .copyWith(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
-                                CircleIconButton(
-                                    iconUrl: 'assets/icons/mark.svg',
-                                    color: Theme.of(context).accentColor)
-                              ],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Stack(
+                          children: [
+                            Container(
+                              child: Expanded(
+                                  child: Image.network(
+                                listOffer[index].idImage!
+                                // "https://firebasestorage.googleapis.com/v0/b/flutter-app-homestay.appspot.com/o/image%2FHouses%2Fhouse01.jpeg?alt=media&token=98cd65f4-af2f-498f-8c47-7e6c6adcdd83"
+                                ,
+                                fit: BoxFit.cover,
+                                height: double.infinity,
+                                width: double.infinity,
+                              )),
                             ),
-                          ))
-                    ],
-                  ),
-                ),
-              ),
-          separatorBuilder: (_, index) => SizedBox(width: 20),
-          itemCount: listOffer.length),
-    );
+                            Positioned(
+                              right: 15,
+                              top: 15,
+                              child: CircleIconButton(
+                                  iconUrl: 'assets/icons/mark.svg',
+                                  color: Theme.of(context).accentColor),
+                            ),
+                            Positioned(
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                child: Container(
+                                  color: Colors.white54,
+                                  padding: EdgeInsets.all(10),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(listOffer[index].name!,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline1!
+                                                  .copyWith(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            listOffer[index].address!,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .copyWith(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          )
+                                        ],
+                                      ),
+                                      CircleIconButton(
+                                          iconUrl: 'assets/icons/mark.svg',
+                                          color: Theme.of(context).accentColor)
+                                    ],
+                                  ),
+                                ))
+                          ],
+                        ),
+                      ),
+                    ),
+                separatorBuilder: (context, index) => SizedBox(width: 20),
+                itemCount: listOffer.length),
+          );
   }
 }

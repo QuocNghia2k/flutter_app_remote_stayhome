@@ -42,7 +42,8 @@ class RegisterScreen extends StatelessWidget {
                   create: (context) => UserProvider(),
                 )
               ],
-              child: Positioned(
+              child: 
+              Positioned(
                 top: 320,
                 right: 0,
                 bottom: 48,

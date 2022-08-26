@@ -1,19 +1,27 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_app_remote_stayhome/data/dataSource/entiti/comment.dart';
-import 'package:flutter_app_remote_stayhome/data/dataSource/entiti/image.dart';
-import 'package:flutter_app_remote_stayhome/data/dataSource/entiti/user.dart';
 
 class Post extends Equatable {
+  String? id;
   String? idUser;
   String? detail;
-  // final int like;
   DateTime? createDate;
 
-  Post(
-      {this.idUser,
-      this.detail,
-      // required this.like,
-      this.createDate});
+  Post({this.id, this.idUser, this.detail, this.createDate});
+
+  factory Post.fromJson(String id, Map<String, dynamic> json) {
+    return Post(
+        id: id,
+        idUser: json["idUser"],
+        detail: json["detail"],
+        createDate: json["createDate"]);
+  }
+
+  Map<String, dynamic> toMap() => {
+        // "id": id,
+        "idUser": idUser,
+        "detail": detail,
+        "createDate": createDate
+      };
 
   @override
   // TODO: implement props

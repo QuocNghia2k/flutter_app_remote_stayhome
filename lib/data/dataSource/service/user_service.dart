@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_remote_stayhome/data/dataSource/entiti/user.dart';
 
 class UserService {
-  late List<User> allUser = [];
+  List<User> allUser = [];
   late FirebaseFirestore db;
 
   UserService() {
@@ -15,15 +15,15 @@ class UserService {
   }
 
   Future<List<User>> getAllUser() async {
+    List<User> listUser = [];
     await db.collection("users").get().then((event) {
       for (var doc in event.docs) {
-        allUser.add(User.fromJson(doc.id, doc.data()));
-
-        print("${doc.id} => ${doc.data()}");
+        listUser.add(User.fromJson(doc.id, doc.data()));
       }
     });
-
-    return await allUser;
+    allUser.clear();
+    allUser.addAll(listUser);
+    return allUser;
   }
 
   Future<User> getUser(String id) async {
@@ -65,10 +65,11 @@ class UserService {
     }
   }
 
-  Future<String> checkUser(String username, String passwork)async{
+  Future<String> checkUser(String username, String passwork) async {
     await db.collection("users").get().then((event) {
       for (var doc in event.docs) {
-        if (username == doc.data()["username"]&& passwork==doc.data()["passwork"]) {
+        if (username == doc.data()["username"] &&
+            passwork == doc.data()["passwork"]) {
           return doc.id;
         }
       }

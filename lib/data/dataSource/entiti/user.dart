@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_app_remote_stayhome/data/dataSource/entiti/image.dart';
 
 class User extends Equatable {
   String? id;
@@ -20,6 +19,7 @@ class User extends Equatable {
       this.idProfilePictrure,
       this.role});
 
+  
   factory User.fromJson(String id, Map<String, dynamic> json) {
     return User(
         id: id,

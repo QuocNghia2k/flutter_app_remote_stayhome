@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 class ImageApp extends Equatable {
-  int? id;
+  String? id;
   String? Url;
   ImageApp({ this.id, this.Url});
 
  factory ImageApp.fromJson(String id, Map<String, dynamic> json) {
   return ImageApp(
-    // id: id,
+    id: id,
     Url: json['path_image']
   );
  }
